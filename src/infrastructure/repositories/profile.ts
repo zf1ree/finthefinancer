@@ -23,7 +23,12 @@ export async function getOrCreateProfile(userId: UserId, fallbackName: string): 
 }
 
 export type AuditAction =
-  "auth.login" | "auth.logout" | "auth.mfa_enrolled" | "settings.theme_changed";
+  | "auth.login"
+  | "auth.logout"
+  | "auth.mfa_enrolled"
+  | "settings.theme_changed"
+  | "connection.added"
+  | "connection.removed";
 
 export async function recordAudit(
   userId: UserId,

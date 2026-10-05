@@ -2,7 +2,15 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
 test.describe("acesso sem sessão", () => {
-  for (const path of ["/", "/inicio", "/transacoes", "/configuracoes"]) {
+  for (const path of [
+    "/",
+    "/inicio",
+    "/transacoes",
+    "/configuracoes",
+    "/conexoes",
+    "/contas",
+    "/cartoes",
+  ]) {
     test(`${path} manda para o login`, async ({ page }) => {
       await page.goto(path);
       await expect(page).toHaveURL(/\/entrar/);
@@ -43,5 +51,16 @@ test.describe("tela de login", () => {
     expect(headers["content-security-policy"]).toContain("frame-ancestors 'none'");
     expect(headers["x-frame-options"]).toBe("DENY");
     expect(headers["referrer-policy"]).toBe("no-referrer");
+  });
+});
+
+test.describe("rotina diária", () => {
+  test("recusa chamada sem o segredo do cron", async ({ request }) => {
+    const anonymous = await request.get("/api/cron/daily");
+    expect(anonymous.status()).toBe(401);
+    const wrong = await request.get("/api/cron/daily", {
+      headers: { authorization: "Bearer segredo-errado" },
+    });
+    expect(wrong.status()).toBe(401);
   });
 });

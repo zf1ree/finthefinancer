@@ -14,10 +14,10 @@ import { PageHeader } from "@/components/layout/page-header";
 export const metadata: Metadata = { title: "Mais" };
 
 const ITEMS: { label: string; icon: LucideIcon; href?: string }[] = [
-  { label: "Contas e caixinhas", icon: Wallet },
-  { label: "Cartões", icon: CreditCard },
+  { label: "Contas e caixinhas", icon: Wallet, href: "/contas" },
+  { label: "Cartões", icon: CreditCard, href: "/cartoes" },
   { label: "Avisos", icon: Bell },
-  { label: "Conexões", icon: Link2 },
+  { label: "Conexões", icon: Link2, href: "/conexoes" },
   { label: "Configurações e privacidade", icon: Settings, href: "/configuracoes" },
 ];
 

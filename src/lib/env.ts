@@ -30,3 +30,25 @@ export function serverEnv(): ServerEnv {
   cachedServer ??= serverSchema.parse(process.env);
   return cachedServer;
 }
+
+const pluggySchema = z.object({
+  PLUGGY_CLIENT_ID: z.string().min(8),
+  PLUGGY_CLIENT_SECRET: z.string().min(8),
+  PLUGGY_API_URL: z.url().default("https://api.pluggy.ai"),
+});
+
+export type PluggyEnv = z.infer<typeof pluggySchema>;
+
+/** Credenciais do Pluggy; null enquanto não forem cadastradas na Vercel. */
+export function pluggyEnv(): PluggyEnv | null {
+  const parsed = pluggySchema.safeParse(process.env);
+  return parsed.success ? parsed.data : null;
+}
+
+const cronSchema = z.object({ CRON_SECRET: z.string().min(32) });
+
+/** Segredo do cron; null se não configurado (a rota recusa tudo). */
+export function cronSecret(): string | null {
+  const parsed = cronSchema.safeParse(process.env);
+  return parsed.success ? parsed.data.CRON_SECRET : null;
+}

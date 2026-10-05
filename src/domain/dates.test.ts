@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  addDays,
   addMonths,
   InvalidDateError,
   isWithin,
@@ -57,5 +58,14 @@ describe("meses", () => {
     expect(isWithin(localDate("2026-09-01"), range)).toBe(true);
     expect(isWithin(localDate("2026-09-30"), range)).toBe(true);
     expect(isWithin(localDate("2026-10-01"), range)).toBe(false);
+  });
+});
+
+describe("addDays", () => {
+  it("atravessa meses e anos bissextos", () => {
+    expect(addDays(localDate("2026-03-01"), -1)).toBe("2026-02-28");
+    expect(addDays(localDate("2028-02-28"), 1)).toBe("2028-02-29");
+    expect(addDays(localDate("2026-12-31"), 1)).toBe("2027-01-01");
+    expect(addDays(localDate("2026-10-05"), -365)).toBe("2025-10-05");
   });
 });

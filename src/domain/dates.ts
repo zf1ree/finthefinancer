@@ -81,3 +81,11 @@ export function samePeriodInMonth(ym: YearMonth, dayOfMonth: number): DateRange 
 export function isWithin(date: LocalDate, range: DateRange): boolean {
   return date >= range.from && date <= range.to;
 }
+
+export function addDays(date: LocalDate, delta: number): LocalDate {
+  const [y, m, d] = date.split("-").map(Number) as [number, number, number];
+  const shifted = new Date(Date.UTC(y, m - 1, d + delta));
+  return localDate(
+    `${shifted.getUTCFullYear()}-${pad(shifted.getUTCMonth() + 1)}-${pad(shifted.getUTCDate())}`,
+  );
+}
